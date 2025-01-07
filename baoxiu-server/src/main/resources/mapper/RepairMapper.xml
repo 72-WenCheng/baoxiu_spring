@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sky.mapper.RepairMapper">
+
+    <select id="pageQuery" resultType="com.sky.entity.Repair">
+        select * from repair
+        <where>
+            <if test="name != null and name != ''">
+                and name like concat('%',#{name},'%')
+            </if>
+            <if test="repairNum != null">
+                and repair_num = #{repairNum}
+            </if>
+            <if test="repairStatus != null">
+                and repair_status = #{repairStatus}
+            </if>
+        </where>
+        order by sort asc , create_time desc
+    </select>
+
+    <update id="update" parameterType="Repair">
+        update repair
+        <set>
+            <if test="phone != phone">
+                phone = #{phone},
+            </if>
+            <if test="description != null">
+                description = #{description},
+            </if>
+            <if test="image != null">
+                image = #{image},
+            </if>
+            <if test="louNum != null">
+                lou_num = #{louNum},
+            </if>
+            <if test="fangNum != null">
+                fang_num = #{fangNum},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="updateUser != null">
+                update_user = #{updateUser}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+</mapper>

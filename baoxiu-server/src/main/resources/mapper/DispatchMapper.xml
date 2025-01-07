@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sky.mapper.DispatchMapper">
+    <select id="pageQueryDispatch" resultType="com.sky.entity.Dispatch">
+        SELECT d.repair_id, d.name, d.dispatch_time, r.id, r.repair_num
+        FROM dispatch d
+        RIGHT JOIN repair r ON d.repair_id = r.id
+        <where>
+            <if test="name != null and name != ''">
+                and d.name like concat('%',#{name},'%')
+            </if>
+            <if test="repairNum != null">
+                and r.repair_num = #{repairNum}
+            </if>
+        </where>
+    </select>
+
+    <update id="UpdateDispatch" parameterType="Dispatch">
+        update dispatch
+        <set>
+            <if test="name != null and name != '' ">
+                name = #{name},
+            </if>
+            <if test="dispatchTime != null and dispatchTime != '' ">
+                dispatch_time = #{dispatchTime},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+</mapper>
